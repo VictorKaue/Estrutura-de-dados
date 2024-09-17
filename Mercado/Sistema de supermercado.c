@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#include <string.h>
+#include <locale.h>
 
 typedef struct{
     int codigo;
@@ -20,15 +21,17 @@ void visualizarCarrinho(Carrinho *carrinho, int posicao);
 void fecharPedido(Carrinho *carrinho, int posicao);
 
 int main(){
+    setlocale(LC_ALL, "Portuguese");
     Produto produtos[50];
     Carrinho carrinho[50];
 
-    
+    menu(produtos, carrinho);
     return 0;
 }
 
 void menu(Produto *produtos, Carrinho *carrinho){
-    int op = 0, posicao = 0;
+    int op = 0;
+    static int posicao = 0;
     while (op != 6){
         puts("1 - Cadastrar produtos");
         puts("2 - Listar produtos");
