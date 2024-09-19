@@ -14,14 +14,15 @@ typedef struct{
 }Carrinho;
 
 void menu(Produto *produtos, Carrinho *carrinho);
-void cadastrarProduto(Produto *produtos, int posicao);
-void listarProdutos(Produto *produtos, int posicao);
-//void comprarProduto(Produto *produtos, Carrinho *carrinho, int posicao);
-//void visualizarCarrinho(Carrinho *carrinho, int posicao);
-//void fecharPedido(Carrinho *carrinho, int posicao);
+void cadastrarProduto(Produto *produtos, int *quanti_cadastrados);
+void listarProdutos(Produto *produtos, int quanti_cadastrados);
+void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrados);
+//void visualizarCarrinho(Carrinho *carrinho, int quanti_cadastrados);
+//void fecharPedido(Carrinho *carrinho, int quanti_cadastrados);
 
 int main(){
-    setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "");
+
     Produto produtos[50];
     Carrinho carrinho[50];
 
@@ -31,7 +32,7 @@ int main(){
 
 void menu(Produto *produtos, Carrinho *carrinho){
     int op = 0;
-    static int posicao = 0;
+    static int quanti_cadastrados = 0;
     do{
         puts("1 - Cadastrar produtos");
         puts("2 - Listar produtos");
@@ -43,52 +44,70 @@ void menu(Produto *produtos, Carrinho *carrinho){
         scanf("%d", &op);
         switch (op){
         case 1:
-            cadastrarProduto(produtos, posicao);
+            cadastrarProduto(produtos, &quanti_cadastrados);
             break;
         
         case 2:
-            listarProdutos(produtos, posicao);
+            listarProdutos(produtos, quanti_cadastrados);
             break;
         case 3:
-            // comprarProduto(produtos, carrinho, posicao);
+             comprarProduto(produtos, carrinho, quanti_cadastrados);
             break;
         case 4:
-            // visualizarCarrinho(carrinho, posicao);
+            // visualizarCarrinho(carrinho, quanti_cadastrados);
             break;
         case 5:
-            // fecharPedido(carrinho, posicao);
+            // fecharPedido(carrinho, quanti_cadastrados);
             break;
         case 6:
             printf("Saindo do sistema!\n");
             break;
         }
-        posicao++;
     }while (op != 6);
 }
 
-void cadastrarProduto(Produto *produtos, int posicao){
+void cadastrarProduto(Produto *produtos, int *quanti_cadastrados){
     printf("Digite o código do produto: ");
-    scanf("%d", &produtos[posicao].codigo);
+    scanf("%d", &produtos[*quanti_cadastrados].codigo);
     fflush(stdin);
     printf("Digite o nome do produto: ");
-    fgets(produtos[posicao].nome, 30, stdin);
-
+    fgets(produtos[*quanti_cadastrados].nome, 30, stdin);
+    produtos[*quanti_cadastrados].nome[strcspn(produtos[*quanti_cadastrados].nome, "\n")] = '\0';
     printf("Digite o preço: ");
-    scanf("%f", &produtos[posicao].preco);
+    scanf("%f", &produtos[*quanti_cadastrados].preco);
     fflush(stdin);
+    ++*quanti_cadastrados;
 }
 
-void listarProdutos(Produto *produtos, int posicao){
+void listarProdutos(Produto *produtos, int quanti_cadastrados) {
     int i;
+    puts("");
     printf("Produtos: \n\n");
-    for (i = 0; i < posicao; i++){
-        printf("Código: %d\n", produtos[i].codigo);
-        printf("Nome: %s\n", produtos[i].nome);
-        printf("Preço: %.2f", produtos[i].preco);
-        puts("");
+    
+    for (i = 0; i < quanti_cadastrados; i++) {
+        printf("%d - Código: %d\n", i + 1, produtos[i].codigo);
+        printf("    Nome: %s\n", produtos[i].nome);
+        printf("    Preço: %.2f\n\n", produtos[i].preco);
     }
 }
 
-// void comprarProduto(Produto *produtos, Carrinho *carrinho, int posicao){
-    
-// }
+
+ void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrados){
+	int i, codigo;
+	char op;
+	printf("Digite o código do produto que você deseja: ");
+	scanf("%d", &codigo);
+	do{
+		for(i=0; i < quanti_cadastrados; i++){
+			if(produtos[i].codigo == codigo){
+				carrinho.produto[carrinho.quantidade] = produto[i];
+				carrinho[].quantidade++;
+				break;
+			} else {
+				puts("Este código digita não existe. tente comprar novamente");
+			}
+		}
+		printf("Deseja continuar a comprar? [S/N]");
+		scanf("%c", &op);
+	}while(op != 'S', op != 's', op != 'N', op != 'n');
+}
