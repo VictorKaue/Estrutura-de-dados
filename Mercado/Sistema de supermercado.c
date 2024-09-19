@@ -16,9 +16,9 @@ typedef struct{
 void menu(Produto *produtos, Carrinho *carrinho);
 void cadastrarProduto(Produto *produtos, int posicao);
 void listarProdutos(Produto *produtos, int posicao);
-void comprarProduto(Produto *produtos, Carrinho *carrinho, int posicao);
-void visualizarCarrinho(Carrinho *carrinho, int posicao);
-void fecharPedido(Carrinho *carrinho, int posicao);
+//void comprarProduto(Produto *produtos, Carrinho *carrinho, int posicao);
+//void visualizarCarrinho(Carrinho *carrinho, int posicao);
+//void fecharPedido(Carrinho *carrinho, int posicao);
 
 int main(){
     setlocale(LC_ALL, "Portuguese");
@@ -32,7 +32,7 @@ int main(){
 void menu(Produto *produtos, Carrinho *carrinho){
     int op = 0;
     static int posicao = 0;
-    while (op != 6){
+    do{
         puts("1 - Cadastrar produtos");
         puts("2 - Listar produtos");
         puts("3 - Comprar produto");
@@ -40,6 +40,7 @@ void menu(Produto *produtos, Carrinho *carrinho){
         puts("5 - Fechar pedido");
         puts("6 - sair do sistema:");
         puts("Digite a opereção que deseja: ");
+        scanf("%d", &op);
         switch (op){
         case 1:
             cadastrarProduto(produtos, posicao);
@@ -49,39 +50,45 @@ void menu(Produto *produtos, Carrinho *carrinho){
             listarProdutos(produtos, posicao);
             break;
         case 3:
-            comprarProduto(produtos, carrinho, posicao);
+            // comprarProduto(produtos, carrinho, posicao);
             break;
         case 4:
-            visualizarCarrinho(carrinho, posicao);
+            // visualizarCarrinho(carrinho, posicao);
             break;
         case 5:
-            fecharPedido(carrinho, posicao);
+            // fecharPedido(carrinho, posicao);
             break;
         case 6:
             printf("Saindo do sistema!\n");
             break;
         }
-    }
+        posicao++;
+    }while (op != 6);
 }
 
-void cadastrarProduto(Produto *produto, int posicao){
+void cadastrarProduto(Produto *produtos, int posicao){
     printf("Digite o código do produto: ");
-    scanf("%d", produto[posicao].codigo);
-
+    scanf("%d", &produtos[posicao].codigo);
+    fflush(stdin);
     printf("Digite o nome do produto: ");
-    fgets(produto[posicao].nome, 30, stdin);
+    fgets(produtos[posicao].nome, 30, stdin);
 
     printf("Digite o preço: ");
-    scanf("%f", produto[posicao].preco);
-
+    scanf("%f", &produtos[posicao].preco);
+    fflush(stdin);
 }
 
 void listarProdutos(Produto *produtos, int posicao){
     int i;
     printf("Produtos: \n\n");
     for (i = 0; i < posicao; i++){
-        printf("Código: %d\n", produtos[posicao].codigo);
-        printf("Nome: %s\n", produtos[posicao].nome);
-        printf("Preço: %.2f", produtos[posicao].preco);
+        printf("Código: %d\n", produtos[i].codigo);
+        printf("Nome: %s\n", produtos[i].nome);
+        printf("Preço: %.2f", produtos[i].preco);
+        puts("");
     }
 }
+
+// void comprarProduto(Produto *produtos, Carrinho *carrinho, int posicao){
+    
+// }
