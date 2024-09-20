@@ -94,19 +94,18 @@ void listarProdutos(Produto *produtos, int quanti_cadastrados) {
 
  void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrados){
 	int i, codigo;
-	char op;
+	char op = ' ';
 	printf("Digite o código do produto que você deseja: ");
 	scanf("%d", &codigo);
 	do{
 		for(i=0; i < quanti_cadastrados; i++){
 			if(produtos[i].codigo == codigo){
-				carrinho.produto[carrinho.quantidade] = produto[i];
-				carrinho[].quantidade++;
 				break;
 			} else {
-				puts("Este código digita não existe. tente comprar novamente");
+				puts("Este código digita não existe. Tente novamente!");
 			}
 		}
+        
 		printf("Deseja continuar a comprar? [S/N]");
 		scanf("%c", &op);
 	}while(op != 'S', op != 's', op != 'N', op != 'n');
