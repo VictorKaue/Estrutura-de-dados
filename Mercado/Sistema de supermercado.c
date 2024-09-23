@@ -26,7 +26,7 @@ void fecharPedido(Carrinho *carrinho, int *itens_carrinho);
 
 
 int main(){
-    // setlocale(LC_ALL, "Portuguese");
+    setlocale(LC_ALL, "Portuguese");
 
     Produto produtos[50];
     Carrinho carrinho[50];
@@ -81,7 +81,7 @@ void cadastrarProduto(Produto *produtos, int *quanti_cadastrados){
         printf("Digite o código do produto: ");
         scanf("%d", &produtos[*quanti_cadastrados].codigo);
         setbuf(stdin, 0);
-        p = pegarProdutoPorCodigo(produtos, quanti_cadastrados, produtos[*quanti_cadastrados].codigo);
+        p = pegarProdutoPorCodigo(produtos, *quanti_cadastrados, produtos[*quanti_cadastrados].codigo);
         printf("Digite o nome do produto: ");
         fgets(produtos[*quanti_cadastrados].nome, 30, stdin);
         produtos[*quanti_cadastrados].nome[strcspn(produtos[*quanti_cadastrados].nome, "\n")] = '\0';
@@ -125,6 +125,7 @@ void listarProdutos(Produto *produtos, int quanti_cadastrados) {
 	do{
         printf("Digite o código do produto que você deseja: ");
         scanf(" %d", &codigo);
+        
         Produto p;
         p = pegarProdutoPorCodigo(produtos, quanti_cadastrados, codigo);
         if(p.codigo == codigo){
@@ -143,7 +144,7 @@ void listarProdutos(Produto *produtos, int quanti_cadastrados) {
         }
 		printf("Deseja continuar a comprar? [S/N]\n");
 		scanf(" %c", &op);
-	}while(op != 'N' || op != 'n');
+	}while(op != 'N' && op != 'n');
 }
 
 void visualizarCarrinho(Carrinho *carrinho, int itens_carrinho){
