@@ -14,24 +14,23 @@ typedef struct{
     int quantidade;
 }Carrinho;
 
+void esvaziarCarrinho(Carrinho *carrinho);
 void menu(Produto *produtos, Carrinho *carrinho);
 void cadastrarProduto(Produto *produtos, int *quanti_cadastrados);
 void listarProdutos(Produto *produtos, int quanti_cadastrados);
 void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrados, int *itens_carrinho);
 void visualizarCarrinho(Carrinho *carrinho, int itens_carrinho);
-int temNoCarrinho(Carrinho *carrinho, int *itens_carrinho);
+Produto pegarProdutoPorCodigo(Produto *produto, int quanti_cadastrados, int codigo);
+int temNoCarrinho(Carrinho *carrinho);
 void fecharPedido(Carrinho *carrinho, int *itens_carrinho);
+
 
 int main(){
     // setlocale(LC_ALL, "Portuguese");
 
     Produto produtos[50];
     Carrinho carrinho[50];
-    int i;
-    for(i=0; i < 50; i++){ // inicializando para não haver lixo de memória.
-        carrinho[i].produto.codigo = -1;
-        carrinho[i].quantidade = 0;
-    }
+    esvaziarCarrinho(carrinho);    // inicializando para não haver lixo de memória.
 
     menu(produtos, carrinho);
     return 0;
@@ -76,21 +75,34 @@ void menu(Produto *produtos, Carrinho *carrinho){
 }
 
 void cadastrarProduto(Produto *produtos, int *quanti_cadastrados){
-    if(produtos[*quanti_cadastrados].preco > 0){
-        ++*quanti_cadastrados;
-    }
+    int verificador = 0;
+    Produto p;
     do{
         printf("Digite o código do produto: ");
         scanf("%d", &produtos[*quanti_cadastrados].codigo);
         setbuf(stdin, 0);
+        p = pegarProdutoPorCodigo(produtos, quanti_cadastrados, produtos[*quanti_cadastrados].codigo);
         printf("Digite o nome do produto: ");
         fgets(produtos[*quanti_cadastrados].nome, 30, stdin);
         produtos[*quanti_cadastrados].nome[strcspn(produtos[*quanti_cadastrados].nome, "\n")] = '\0';
-        //setbuf(stdin, 0);
         printf("Digite o preço: ");
         scanf("%f", &produtos[*quanti_cadastrados].preco);
         setbuf(stdin, 0);
-    }while(quanti_cadastrados <= 0);
+        if(produtos[*quanti_cadastrados].preco <= 0){
+            puts("Preço inválido!");
+            puts("Tente novamente!");
+        } else if(produtos[*quanti_cadastrados].codigo <= 0 || produtos[*quanti_cadastrados].codigo == p.codigo){
+            puts("Código inválido!");
+            puts("Tente novamente!");
+        } else if(strlen(produtos[*quanti_cadastrados].nome) <= 0){
+            puts("Nome inválido!");
+            puts("Tente novamente!");
+        }
+        else{
+            verificador++;
+            (*quanti_cadastrados)++;
+        }
+    }while(verificador == 0);
 }
 
 void listarProdutos(Produto *produtos, int quanti_cadastrados) {
@@ -108,26 +120,27 @@ void listarProdutos(Produto *produtos, int quanti_cadastrados) {
 
 
  void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrados, int *itens_carrinho){
-	int i, j, codigo;
+	int codigo;
 	char op = ' ';
 	do{
         printf("Digite o código do produto que você deseja: ");
         scanf(" %d", &codigo);
-		for(i=0; i < quanti_cadastrados; i++){
-			if(produtos[i].codigo == codigo){
-                for(j=0; j < 50; j++){
-                    if(carrinho[j].produto.codigo == codigo){
-                        carrinho[j].quantidade++;
-                    } else if(carrinho[j].produto.codigo == -1){
-                        carrinho[j].produto = produtos[i];
-                        carrinho[j].quantidade++;
-                    }
-                }
-				break;
-			} else {
-				puts("Este código digita não existe. Tente novamente!");
-			}
-		}
+        Produto p;
+        p = pegarProdutoPorCodigo(produtos, quanti_cadastrados, codigo);
+        if(p.codigo == codigo){
+            int posicao = temNoCarrinho(carrinho);
+            if (posicao){
+                (*itens_carrinho)++;
+                carrinho[posicao].quantidade++;
+            } else if (carrinho){
+                (*itens_carrinho)++;
+                carrinho[posicao].produto = p;
+                carrinho[posicao].quantidade++;
+            }
+            break;
+        } else {
+            puts("Este código digita não existe. Tente novamente!");
+        }
 		printf("Deseja continuar a comprar? [S/N]\n");
 		scanf(" %c", &op);
 	}while(op != 'N' || op != 'n');
@@ -145,10 +158,35 @@ void visualizarCarrinho(Carrinho *carrinho, int itens_carrinho){
     sleep(4);
 }
 
-int temNoCarrinho(Carrinho *carrinho, int *itens_carrinho){
+Produto pegarProdutoPorCodigo(Produto *produto, int quanti_cadastrados, int codigo){
+    int i;
+    for(i=0; i < quanti_cadastrados; i++){
+        if (produto[i].codigo == codigo){
+            return produto[i];
+        }
+    }
+    Produto vazio;
+    vazio.codigo = 0;
+    return vazio;
+}
+
+
+int temNoCarrinho(Carrinho *carrinho){
     int codigo = 0, i;
-    
-    return codigo;
+    for (i = 0; i < 50; i++){
+        if(carrinho[i].produto.codigo == codigo){
+            return i;
+        }
+    }
+    return 0;
+}
+
+void esvaziarCarrinho(Carrinho *carrinho){
+    int i;
+    for(i=0; i < 50; i++){ 
+        carrinho[i].produto.codigo = -1;
+        carrinho[i].quantidade = 0;
+    }
 }
 
 void fecharPedido(Carrinho *carrinho, int *itens_carrinho){
@@ -158,5 +196,7 @@ void fecharPedido(Carrinho *carrinho, int *itens_carrinho){
     for (i = 0; i < *itens_carrinho; i++){
         preco_total += carrinho[i].produto.preco;
     }
+    printf("O preço final será de: %.2f", preco_total);
+    
 }
 
