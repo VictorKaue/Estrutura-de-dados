@@ -15,7 +15,7 @@ int main(){
     srand(time(NULL));
     int vetor[tamanho], i, j, aux;
     
-    for (i = 0; i < tamanho; i++){
+    for (i = 0; i < tamanho-1; i++){
         vetor[i] = rand() %10 + 1;
     }
     printf("Vetor antes: \n\n");
