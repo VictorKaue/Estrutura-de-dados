@@ -197,8 +197,8 @@ void esvaziarCarrinho(Carrinho *carrinho) {
     }
 }
 
-void notaFiscal(Carrinho *carrinho, int itens_carrinho, float preco_total){
-    int i;
+void notaFiscal(Carrinho *carrinho, int itens_carrinho, float preco_total){ // cria arquivo txt com os produtos comprados e o preço total da compra.
+    int i; 
     FILE *p = fopen("Nota_Fiscal.txt", "w");
     if (p == NULL) {
         printf("Erro ao abrir o arquivo para escrita.\n");
@@ -215,7 +215,7 @@ void notaFiscal(Carrinho *carrinho, int itens_carrinho, float preco_total){
     fclose(p);
 }
 
-void fecharPedido(Carrinho *carrinho, int *itens_carrinho) {
+void fecharPedido(Carrinho *carrinho, int *itens_carrinho) { //encerra o pedido e esvazia o carrinho;
     float preco_total = 0;
     int i;
     for (i = 0; i < *itens_carrinho; i++) {
