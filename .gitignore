@@ -7,3 +7,6 @@ Mercado/output/Sistema de supermercado
 .gitignore
 Mercado/output/Sistema de supermercado.exe
 Mercado/output/Nota_Fiscal.txt
+Ordenadores/output/insertion_sort.exe
+.gitignore
+Ordenadores/output/selection_sort.exe

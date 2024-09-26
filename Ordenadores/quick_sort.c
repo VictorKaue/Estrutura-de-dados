@@ -11,20 +11,12 @@ void imprimir_vetor(int *vetor, int tamanho){
     printf("\n");
 }
 
-void insetionsort(int *vetor, int tamanho){
-    int i, j, aux;
-    
-    for(i= 1; i < tamanho; i++){
-        aux = vetor[i];
-        for (j = i-1; j >= 0 && aux < vetor[j] ;j--){
-            vetor[j+1] = vetor[j];
-        }
-        vetor[j+1] = aux;
-    }
+void quicksort(int *vetor, int tamanho){
+    int pivo, i, j;
 }
 
 int main(){
-    setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "Portuguese");
     srand(time(NULL));
     int vetor[6], i;
     int tamanho = sizeof(vetor)/sizeof(vetor[0]);
@@ -35,9 +27,7 @@ int main(){
     }
     printf("Vetor antes: \n\n");
     imprimir_vetor(vetor, tamanho);
-	insetionsort(vetor, tamanho);
+	selectionsort(vetor, tamanho);
     printf("\nVetor depois: \n\n");
     imprimir_vetor(vetor, tamanho);
-
-    return 0;
 }
