@@ -29,7 +29,7 @@ int main(){
     int vetor[6], i;
     int tamanho = sizeof(vetor)/sizeof(vetor[0]);
 
-    for (i = 0; i < tamanho-1; i++){
+    for (i = 0; i < tamanho; i++){
         vetor[i] = rand() %100 + 1;
     }
     printf("Vetor antes: \n\n");
