@@ -23,6 +23,7 @@ void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrado
 void visualizarCarrinho(Carrinho *carrinho, int itens_carrinho);
 int pegarProdutoPorCodigo(Produto *produtos, int quanti_cadastrados, int codigo);
 int temNoCarrinho(Carrinho *carrinho, int codigo);
+void notaFiscal(Carrinho *carrinho, int itens_carrinho, float preco_total);
 void fecharPedido(Carrinho *carrinho, int *itens_carrinho);
 
 int main() {
@@ -143,7 +144,6 @@ void comprarProduto(Produto *produtos, Carrinho *carrinho, int quanti_cadastrado
                 carrinho[*itens_carrinho].quantidade = 1;
                 (*itens_carrinho)++;
             }
-            break;
         } else {
             puts("Este código não existe. Tente novamente!");
         }
@@ -197,6 +197,24 @@ void esvaziarCarrinho(Carrinho *carrinho) {
     }
 }
 
+void notaFiscal(Carrinho *carrinho, int itens_carrinho, float preco_total){
+    int i;
+    FILE *p = fopen("Nota_Fiscal.txt", "w");
+    if (p == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+    }
+    for(i = 0; i < itens_carrinho; i++){
+        fprintf(p, "Produto %d: \n\n", i+1);
+        fprintf(p, "Código %d\n", carrinho[i].produto.codigo);
+        fprintf(p, "Nome: %s\n", carrinho[i].produto.nome);
+        fprintf(p, "Preço: %.2f\n", carrinho[i].produto.preco);
+        fprintf(p, "Produto %d: \n", i+1);
+        fprintf(p, "Quantidade: %d\n\n\n", carrinho[i].quantidade);
+    }
+    fprintf(p, "Preço total: %.2f", preco_total);
+    fclose(p);
+}
+
 void fecharPedido(Carrinho *carrinho, int *itens_carrinho) {
     float preco_total = 0;
     int i;
@@ -204,5 +222,6 @@ void fecharPedido(Carrinho *carrinho, int *itens_carrinho) {
         preco_total += carrinho[i].produto.preco * carrinho[i].quantidade;
     }
     printf("O preço final será de: %.2f\n", preco_total);
+    notaFiscal(carrinho, *itens_carrinho, preco_total);
     esvaziarCarrinho(carrinho);
 }
