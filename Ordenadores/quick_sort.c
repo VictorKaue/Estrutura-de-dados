@@ -11,13 +11,28 @@ void imprimir_vetor(int *vetor, int tamanho){
     printf("\n");
 }
 
-void quicksort(int *vetor, int tamanho, int esquerda, int direita){
-    int pivo = vetor[0];
-    int i, j, menor;
+void quicksort(int *vetor, int esquerda, int direita){
+    int pivo = esquerda;
+    int i, menor, aux, posicao;
 
-    for(vetor[pivo] < vetor[pivo-1]){
-        
+    for(posicao = esquerda+1; posicao <= direita; posicao++){
+        aux = posicao;
+        if(vetor[aux] < vetor[pivo]){
+            menor = vetor[aux];
+            while (aux > pivo){
+                vetor[aux] = vetor[aux-1];
+                aux--;
+            }
+            vetor[aux] = menor;
+            pivo++;
+        }
     }   
+    if(pivo-1 >= esquerda){
+        quicksort(vetor, esquerda, direita-1);
+    }
+    if(pivo+1 <= direita){
+        quicksort(vetor, pivo+1, direita);
+    }
 }
 
 int main(){
@@ -32,7 +47,7 @@ int main(){
     }
     printf("Vetor antes: \n\n");
     imprimir_vetor(vetor, tamanho);
-	selectionsort(vetor, tamanho);
+    quicksort(vetor, 0, tamanho-1);
     printf("\nVetor depois: \n\n");
     imprimir_vetor(vetor, tamanho);
 }
