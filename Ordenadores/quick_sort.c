@@ -13,7 +13,7 @@ void imprimir_vetor(int *vetor, int tamanho){
 
 void quicksort(int *vetor, int esquerda, int direita){
     int pivo = esquerda;
-    int i, menor, aux, posicao;
+    int menor, aux, posicao;
 
     for(posicao = esquerda+1; posicao <= direita; posicao++){
         aux = posicao;
