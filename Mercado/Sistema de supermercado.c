@@ -86,6 +86,10 @@ void cadastrarProduto(Produto *produtos, int *quanti_cadastrados) {
     int verificador = 0;
     int codigo_produtos;
     do {
+        if(*quanti_cadastrados > 50){
+            printf("Limite máximo de 50 produtos atingidos! \n");
+            break;
+        }
         printf("Digite o código do produto: ");
         scanf("%d", &produtos[*quanti_cadastrados].codigo);
         limpaBuffer();
