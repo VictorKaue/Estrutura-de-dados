@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdint.h>
 
 void imprimir_vetor(int *vetor, int tamanho){
     int i;
@@ -10,7 +11,7 @@ void imprimir_vetor(int *vetor, int tamanho){
     }
 }
 
-int getMax(size_t *arr, __uint8_t size) {
+int getMax(size_t *arr, uint8_t size) {
     int i;
     int max = arr[0]; // initialize max with the first element of the array;
     for (i = 0; i < size; i++) {
@@ -21,14 +22,15 @@ int getMax(size_t *arr, __uint8_t size) {
     return max; // return the max value
 }
 
-void countingSort(size_t arr[], __uint8_t size, int exp){
+void countingSort(size_t arr[], uint8_t size, int exp){
     size_t temp[size];
+    int i, count[10] = {0};
     
 
 }
 
 
-void radixsort(size_t *arr, __uint8_t size){
+void radixsort(size_t *arr, uint8_t size){
     int m = getMax(arr, size);
     int exp;
     for(exp = 1; m/exp > 0; exp *=10)
@@ -37,7 +39,7 @@ void radixsort(size_t *arr, __uint8_t size){
 
 int main(){
     size_t arr[100];
-    __uint8_t size = sizeof(arr)/sizeof(arr[0]);
+    uint8_t size = sizeof(arr)/sizeof(arr[0]);
 
     printf("arr before sorted: \n\n");
     imprimir_vetor(arr, size);
