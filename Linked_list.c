@@ -18,13 +18,34 @@ void insertAtBeggining(struct node **head_ref, int new_data){
     (*head_ref) = new_node;
 }
 
-void insertAtEnd(struct node **last_ref, int new_data){
-    struct node *temp = (struct node *) malloc(sizeof(struct node));
+void insertAtEnd(struct node **head_ref, int new_data){
+    struct node *new_node = (struct node *) malloc(sizeof(struct node));
+    if(new_node == NULL){
+        printf("Error at insertAtBegginning!");
+        exit(1);
+    }
+    
+    new_node->data = new_data;
+    new_node->next = NULL;
 
-    while(temp != NULL){
+    if(*head_ref == NULL){
+        *head_ref = new_node;                
+        return;
+    }
+
+    struct node *last = *head_ref;
+    while(last != NULL){
+        last = last->next;
+    }
+}
+
+void freeList(struct node **head_ref){
+    while((**head_ref).next != NULL){
         
     }
     
+    
+
 }
 
 
