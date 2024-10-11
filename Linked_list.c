@@ -13,8 +13,8 @@ void insertAtPosition(struct node **head_ref, int position, int new_data);
 void insertAtEnd(struct node **head_ref, int new_data);
 void deleteNode(struct node *head_ref, int value);
 void showList(struct node *head_ref);
+int sizeofList(struct node *head_ref);
 void freeList(struct node *head_ref);
-void clearScreen();
 
 int main(){
     struct node *head = NULL;    
@@ -183,6 +183,7 @@ void showList(struct node *head_ref){
     
     if(show == NULL){
         printf("The list is empty\n");
+        sleep(2);
         return;
     }
 
@@ -191,8 +192,21 @@ void showList(struct node *head_ref){
         show = show->next;
     }
     printf("NULL\n");
+    printf("Size of List: %d\n", sizeofList(head_ref));
+    printf("\n");
     sleep(3);
-    clearScreen();
+}
+
+int sizeofList(struct node *head_ref){
+    struct node *temp = head_ref;
+    if(head_ref == NULL){
+        return 0;
+    }
+    int count;
+    for(count = 0; temp != NULL; count++){
+        temp = temp->next;
+    }
+    return count;
 }
 
 void freeList(struct node *head_ref){
@@ -203,14 +217,4 @@ void freeList(struct node *head_ref){
         head_ref = head_ref->next;
         free(temp);
     }
-}
-
-void clearScreen(){
-    #ifdef _WIN32
-        system("cls");
-    #elif _WIN64
-        system("cls");
-    #else
-        system("clear");
-    #endif
 }
