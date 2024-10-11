@@ -9,7 +9,7 @@ struct node{
 };
 
 void insertAtBeginning(struct node **head_ref, int new_data);
-void insertAtPosition(struct node *head_ref, int position, int new_data);
+void insertAtPosition(struct node **head_ref, int position, int new_data);
 void insertAtEnd(struct node **head_ref, int new_data);
 void deleteNode(struct node *head_ref, int value);
 void showList(struct node *head_ref);
@@ -18,47 +18,53 @@ void clearScreen();
 
 int main(){
     struct node *head = NULL;    
-    int option, value;
+    int option, value, position;
     
     do{
-        clearScreen();
         printf("\n--- Linked List Menu ---\n");
         printf("1 - Insert a node at beginning\n");
-        printf("3 - Insert a node at any position");
-        printf("2 - Insert a node at the end\n");
-        printf("3 - Delete a node by value\n");
-        printf("4 - Show List\n");
-        printf("5 - exit\n");
+        printf("2 - Insert a node at any position\n");
+        printf("3 - Insert a node at the end\n");
+        printf("4 - Delete a node by value\n");
+        printf("5 - Show List\n");
+        printf("6 - exit\n");
         printf("Choose a option: ");
         scanf("%d", &option);
         
         switch(option){
             case 1:
-                printf("Insert the value to insert at beginning: ");
+                printf("Enter the value to insert at beginning: ");
                 scanf("%d", &value);
                 insertAtBeginning(&head, value);
                 break;
             case 2:
-                printf("Insert the value to insert at end: ");
+                printf("Enter value to insert: ");
+                scanf("%d", &value);
+                printf("Enter position to insert (0 for beginning): ");
+                scanf("%d", &position);
+                insertAtPosition(&head, position, value);
+                break;
+            case 3:
+                printf("Enter the value to insert at end: ");
                 scanf("%d", &value);
                 insertAtEnd(&head, value);
                 break;
-            case 3:
-                printf("Insert the value to delete: ");
+            case 4:
+                printf("Enter the value to delete: ");
                 scanf("%d", &value);
                 deleteNode(head, value);
                 break;
-            case 4:
+            case 5:
                 showList(head);
                 break;
-            case 5:
+            case 6:
                 printf("Closing the program...\n");
                 break;
             default:
                 printf("Invalid option!\n");
                 break;
         }
-    } while (option != 5);
+    } while (option != 6);
     printf("Closed successfully!\n");
     freeList(head);
 
@@ -68,7 +74,7 @@ int main(){
 void insertAtBeginning(struct node **head_ref, int new_data){
     struct node *new_node =  (struct node *) malloc(sizeof(struct node));
     if(new_node == NULL){
-        printf("Error at alloc memory and insert at beggining!");
+        printf("Error at alloc memory and insert at beggining!\n");
         exit(1);
     }
 
@@ -84,8 +90,40 @@ void insertAtBeginning(struct node **head_ref, int new_data){
     (*head_ref) = new_node;
 }
 
-void insertAtPosition(struct node *head_ref, int position, int new_data){
+void insertAtPosition(struct node **head_ref, int position, int new_data){
+    struct node *new_node = (struct node *) malloc(sizeof(struct node));
+    if(new_node == NULL){
+        printf("Error at alloc memory and insert at position!\n");
+        exit(1);
+    }
+    new_node->data = new_data;
+    
+    if(head_ref == NULL && position != 0){
+        printf("List is empty, can only insert at position 0.\n");
+        free(new_node);
+        return;
+    }
 
+    if(position == 0){
+        new_node->next = (*head_ref);
+        (*head_ref) = new_node;
+        return;
+    }
+
+    struct node *temp = (*head_ref);
+    int i;
+    for(i = 0;temp != NULL && i < position-1; i++){
+        temp = temp->next;
+    }
+    
+    if(temp == NULL){
+        printf("Position is out of bounds! Please insert at the end!\n");
+        free(new_node);
+        return;
+    }
+
+    new_node->next = temp->next;
+    temp->next = new_node;
 
 }
 
@@ -114,6 +152,10 @@ void insertAtEnd(struct node **head_ref, int new_data){
 
 void deleteNode(struct node *head_ref, int value){
     struct node *temp = head_ref, *prev;
+    if(head_ref == NULL){
+        printf("There isn't any elements on the list");
+        return;
+    }
 
     while(temp->data == value && temp != NULL){
         head_ref = temp->next;
@@ -141,6 +183,7 @@ void showList(struct node *head_ref){
     
     if(show == NULL){
         printf("The list is empty\n");
+        return;
     }
 
     while(show != NULL){
@@ -149,6 +192,7 @@ void showList(struct node *head_ref){
     }
     printf("NULL\n");
     sleep(3);
+    clearScreen();
 }
 
 void freeList(struct node *head_ref){
