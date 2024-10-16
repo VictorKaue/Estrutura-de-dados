@@ -63,6 +63,23 @@ void radixsort(int arr[], int n)
         countSort(arr, n, exp);
 }
 
+int buscaBinaria(int *arr, int inicio, int fim, int elemento){
+    int meio = (inicio+fim)/2;
+    
+    if(arr[meio] == elemento){
+        return meio;
+    }
+    
+    if(arr[meio] > elemento){
+        return buscaBinaria(arr, inicio, meio-1, elemento);
+    }
+    
+    if(arr[meio] < elemento){
+        return buscaBinaria(arr, meio+1, fim, elemento);
+    }
+    return -1;
+}
+
 int main(){
     setlocale(LC_ALL, "Portuguese");
     srand(time(NULL));
@@ -71,14 +88,17 @@ int main(){
     for (i = 0; i < size; i++){
         arr[i] = rand() %100 + 1;
     }
-    
+
     printf("arr before sorted: \n\n");
     imprimir_vetor(arr, size);
     radixsort(arr, size);
-    printf("\narr after sorted: \n\n");
+    printf("\narr before sorted: \n\n");
     imprimir_vetor(arr, size);
-    
-
-
+    printf("\nDigite o valor para ser achado: ");
+    int num;
+    scanf("%d", &num);
+    int posicao = buscaBinaria(arr, 0, 20, num);
+    printf("O valor %d esta no indice %d\n", num, posicao);
+    printf("\n vetor[posicao]: %d", arr[posicao]);
     return 0;
 }
