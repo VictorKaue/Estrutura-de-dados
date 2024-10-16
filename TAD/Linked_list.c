@@ -166,7 +166,7 @@ void deleteNode(struct node *head_ref, int value){
     while(temp != NULL && temp->data != value){
         prev = temp;
         temp = temp->next;
-    }clearScreen();
+    }
     
     if(temp == NULL){
         printf("This value don't exist in the list!");
