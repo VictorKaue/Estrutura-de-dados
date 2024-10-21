@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include "queue.h"
 
-
 int main(){
     Queue *queue = createQueue();
     int option, value;
     do{
         printf("\n--- Linked List Menu ---\n");
-        
         printf("1 - Enque\n");
         printf("2 - Deque\n");
         printf("3 - Show List\n");
@@ -31,7 +29,6 @@ int main(){
             case 4:
                 printf("Closing the program...");
                 break;
-            
             default:
                 printf("Invalid option!\n");
                 break;

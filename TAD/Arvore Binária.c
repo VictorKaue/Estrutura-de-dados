@@ -18,7 +18,10 @@ void imprimir_vetor(int *vetor, int tamanho){
 
 Arvore *criarNo(int numero){
     Arvore *arvore = (Arvore *) malloc(sizeof(Arvore));
-    if()
+    if(arvore == NULL){
+        printf("erro ao alocar no!\n");
+        exit(1);
+    }
     arvore->numero = numero;
     arvore->esquerda = NULL;
     arvore->direita = NULL;
@@ -29,7 +32,9 @@ void criarArvore(Arvore *raiz, int *vetor, int tamanho){
     int i;
     raiz = criarNo(vetor[0]);
     for(i=1; i < tamanho; i++){
-        if()
+        if(NULL){
+
+        }
     }
 }
 

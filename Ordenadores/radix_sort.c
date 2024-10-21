@@ -24,7 +24,7 @@ int getMax(int arr[], int n)
 // the digit represented by exp.
 void countSort(int arr[], int n, int exp)
 {
-    // output array
+    // output array array[10] = {109 805 9002}
     int output[n];
     int i, count[10] = { 0 };
  
