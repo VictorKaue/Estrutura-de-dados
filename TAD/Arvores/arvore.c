@@ -17,12 +17,12 @@ Tree* createNode(int info){
 
 Tree* insert(Tree *tree, int info){
     if(tree == NULL) return createNode(info);
-
     if(info < tree->info){
         tree->left = insert(tree->left, info);
     } else {
         tree->right = insert(tree->right, info);
     }
+    return tree;
 }
 
 Tree remove(){
