@@ -7,12 +7,31 @@ typedef struct tree{
     struct tree *right;
 }Tree;
 
-Tree createTree(){
-    Tree *tree = (Tree *)calloc(1, sizeof(Tree));
+Tree* createNode(int info){
+    Tree *node = (Tree *)calloc(1, sizeof(Tree));
+    node->info = info;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+Tree* insert(Tree *tree, int info){
+    if(tree == NULL) return createNode(info);
+
+    if(info < tree->info){
+        tree->left = insert(tree->left, info);
+    } else {
+        tree->right = insert(tree->right, info);
+    }
+}
+
+Tree remove(){
     
 }
 
 int main(){
-    Tree tree = createTree();
+    Tree *tree = createNode(50); // Cria a raiz
+    
+
     return 0;
 }
