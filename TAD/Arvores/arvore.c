@@ -29,12 +29,20 @@ Tree* insert(Tree *tree, int info){
     return tree;
 }
 
-// Tree* remove(Tree *tree, int info){
-//     if(tree = NULL){
-//         return tree;
-//     }
-
-// }
+Tree* remove(Tree *tree, int info){
+    if(tree == NULL){
+        return tree;
+    }else{
+        if(tree->left == NULL && tree->right == NULL){
+            free(tree);
+            return NULL;
+        } else if(tree->left == NULL){ //provavelmente está errado!
+            Tree *temp = findMin(tree->right);
+            free(tree); 
+        }
+    }
+    return tree;
+}
 
 void preOrder(Tree *tree){
     if(tree == NULL) return;
