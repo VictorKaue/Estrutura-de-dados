@@ -33,15 +33,26 @@ Tree* remove(Tree *tree, int info){
     if(tree == NULL){
         return tree;
     }else{
-        if(tree->left == NULL && tree->right == NULL){
-            free(tree);
-            return NULL;
-        } else if(tree->left == NULL){ //provavelmente está errado!
-            Tree *temp = findMin(tree->right);
-            free(tree); 
+        if(tree->info == info){
+            if(tree->left == NULL && tree->right == NULL){
+                free(tree);
+                return NULL;
+            } else if(tree->left == NULL){ //provavelmente está errado!
+                Tree *temp = findMin(tree->right);
+                free(tree); 
+            } else if(tree->right == NULL) {
+                
+            }
+            
+        } else{
+            if(info < tree->info){
+                tree->left = remove(tree->left, info);
+            } else{
+                tree->right = remove(tree->right, info);
+            }
+            return tree;   
         }
     }
-    return tree;
 }
 
 void preOrder(Tree *tree){
