@@ -38,12 +38,19 @@ Tree* remove(Tree *tree, int info){
                 free(tree);
                 return NULL;
             } else if(tree->left == NULL){ //provavelmente está errado!
-                Tree *temp = findMin(tree->right);
-                free(tree); 
+                Tree *temp = tree->right;
+                free(tree);
+                return temp;
             } else if(tree->right == NULL) {
-                
-            }
+                Tree *temp = tree->left;
+                free(tree);
+                return temp;
+            }else{
+                Tree *temp = findMin(tree->right);
+                tree->info = temp->info;
+                tree->right = remove(tree->right, temp->info);
             
+            }
         } else{
             if(info < tree->info){
                 tree->left = remove(tree->left, info);
@@ -94,14 +101,14 @@ Tree* searchTree(Tree *tree, int info){
     }
 }
 
-Tree* findMax(Tree *tree){
+Tree* findMin(Tree *tree){
     while (tree != NULL && tree->left != NULL){
         tree = tree->left;
     }
     return tree;
 }
 
-Tree* findMin(Tree *tree){
+Tree* findMax(Tree *tree){
     while(tree != NULL && tree->right != NULL){
         tree = tree->right;
     }
@@ -127,6 +134,7 @@ int main(){
     tree = insert(tree, 300);
     tree = insert(tree, 125);
     tree = insert(tree, 110);
+    remove(tree, 330);
 
     printf("preOrder: ");
     preOrder(tree);
