@@ -7,6 +7,13 @@ typedef struct tree{
     struct tree *right;
 }Tree;
 
+Tree* findMin(Tree *tree){
+    while (tree != NULL && tree->left != NULL){
+        tree = tree->left;
+    }
+    return tree;
+}
+
 Tree* createNode(int info){
     Tree *node = (Tree *)calloc(1, sizeof(Tree));
     if (node == NULL) {
@@ -29,37 +36,33 @@ Tree* insert(Tree *tree, int info){
     return tree;
 }
 
-Tree* remove(Tree *tree, int info){
+Tree* deleteNodeBST(Tree *tree, int info){
     if(tree == NULL){
         return tree;
+    }
+    if(info < tree->info){
+        return deleteNodeBST(tree->left, info);
+    } else if(info > tree->info){
+        return deleteNodeBST(tree->right, info);
     }else{
-        if(tree->info == info){
-            if(tree->left == NULL && tree->right == NULL){
-                free(tree);
-                return NULL;
-            } else if(tree->left == NULL){ //provavelmente está errado!
-                Tree *temp = tree->right;
-                free(tree);
-                return temp;
-            } else if(tree->right == NULL) {
-                Tree *temp = tree->left;
-                free(tree);
-                return temp;
-            }else{
-                Tree *temp = findMin(tree->right);
-                tree->info = temp->info;
-                tree->right = remove(tree->right, temp->info);
-            
-            }
-        } else{
-            if(info < tree->info){
-                tree->left = remove(tree->left, info);
-            } else{
-                tree->right = remove(tree->right, info);
-            }
-            return tree;   
+        if(tree->left == NULL && tree->right == NULL){
+            free(tree);
+            return NULL;
+        } else if(tree->left == NULL){
+            Tree *temp = tree->right;
+            free(tree);
+            return temp;
+        } else if(tree->right == NULL){
+            Tree *temp = tree->left;
+            free(tree);
+            return temp;
+        }else{
+            Tree *sucessor = findMin(tree->right);
+            tree->info = sucessor->info;
+            tree->right = deleteNodeBST(tree->right, sucessor->info);
         }
     }
+    return tree;
 }
 
 void preOrder(Tree *tree){
@@ -101,12 +104,6 @@ Tree* searchTree(Tree *tree, int info){
     }
 }
 
-Tree* findMin(Tree *tree){
-    while (tree != NULL && tree->left != NULL){
-        tree = tree->left;
-    }
-    return tree;
-}
 
 Tree* findMax(Tree *tree){
     while(tree != NULL && tree->right != NULL){
@@ -134,7 +131,7 @@ int main(){
     tree = insert(tree, 300);
     tree = insert(tree, 125);
     tree = insert(tree, 110);
-    remove(tree, 330);
+    deleteNodeBST(tree, 300);
 
     printf("preOrder: ");
     preOrder(tree);
